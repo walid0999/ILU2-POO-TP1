@@ -56,4 +56,83 @@ public class Village {
 		}
 		return chaine.toString();
 	}
+	public void utiliserEtal(int indiceEtal, Gaulois vendeur,String produit, int nbProduit) {
+		utiliserEtal( indiceEtal, vendeur,produit, nbProduit);
+			
+	}
+	
+	private static class Marche {
+		private Etal etals[];
+		private int nbr_etals = 0;
+		
+		public Marche(int nbr_etal) {
+			for(int i=0; i<nbr_etal; i++) {
+				this.etals[i] = new Etal();
+				this.nbr_etals +=1;
+			}
+			
+		}
+		
+		public void utiliserEtal(int indiceEtal, Gaulois vendeur,String produit, int nbProduit) {
+			(this.etals[indiceEtal]).occuperEtal(vendeur, produit, nbProduit);
+		}
+		
+		public int trouverEtalLibre() {
+			int indice_libre = -1;
+			for(int i=0; i<(this.nbr_etals); i++) {
+				if(this.etals[i].isEtalOccupe() == false) {
+					indice_libre=i;
+					return indice_libre;
+				}
+			}
+			return indice_libre;
+		}
+		
+		public Etal[] trouverEtals(String produit) {
+			int nbr_etals_libres = 0;
+			for(int i=0; i<(this.nbr_etals); i++) {
+				if(this.etals[i].contientProduit(produit) == true) {
+					nbr_etals_libres++;
+				}
+			}
+			
+			Etal[] etals_occupes = new Etal[nbr_etals_libres];
+			int parcours_tab = 0;
+			for(int i=0; i<(this.nbr_etals); i++) {
+				if(this.etals[i].contientProduit(produit) == true) {
+					etals_occupes[parcours_tab] = this.etals[i];
+					parcours_tab++;
+				}
+			}
+			return etals_occupes;
+		}
+		
+		public Etal trouverVendeur(Gaulois gaulois) {
+			for(int i=0; i<(this.nbr_etals); i++) {
+				if(etals[i].getVendeur().equals(gaulois)) {
+					return etals[i];
+				}
+			}
+			return null;
+		}
+		
+		public void afficherMarche() {
+			int nbEtalVide = 0;
+			for(int i=0; i<(this.nbr_etals); i++) {
+				if(etals[i].isEtalOccupe()) {
+					etals[i].afficherEtal();
+				}
+				else {
+					nbEtalVide++;
+				}
+			}
+			if(nbr_etals>0) {
+				System.out.println("Il reste " +
+						nbEtalVide + " étals non utilisés dans le marché.\n");
+			}
+		}
+//question 8 marche...
+//Modifier le village pour implementer les fonctions marche
+		
+	}
 }
