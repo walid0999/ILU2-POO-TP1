@@ -78,6 +78,7 @@ public class Village {
 		//TODO
 		return chaine.toString();
 	}
+	
 	public Etal rechercherEtal(Gaulois vendeur) {
 		for(int i=0; i<(this.marche.nbr_etals); i++) {
 			if(this.marche.etals[i].getVendeur().equals(vendeur)) {
@@ -89,11 +90,13 @@ public class Village {
 	}
 	public String partirVendeur(Gaulois vendeur) {
 		StringBuilder chaine = new StringBuilder();
-		chaine.append("Le vendeur"+ vendeur.getNom()+"quitte son étal, il a vendu"+ + produit + ".\n");
+		int quantite_vendu = marche.trouverVendeur(vendeur).getQuantite() - marche.trouverVendeur(vendeur).getQuantiteDebutMarche();
+		String produit = marche.trouverVendeur(vendeur).getProduit();
+		chaine.append("Le vendeur"+ vendeur.getNom()+"quitte son Etal, il a vendu"+quantite_vendu + produit +" parmi les "+".\n");
 		return chaine.toString();
 	}
 	public String afficherMarche() {
-		marche.afficherMarche();
+		return marche.afficherMarche();
 	}
 	
 //Marche classe
@@ -152,20 +155,21 @@ public class Village {
 			return null;
 		}
 		
-		public void afficherMarche() {
+		public String afficherMarche() {
+			StringBuilder chaine = new StringBuilder();
 			int nbEtalVide = 0;
 			for(int i=0; i<(this.nbr_etals); i++) {
 				if(etals[i].isEtalOccupe()) {
-					etals[i].afficherEtal();
+					chaine.append(etals[i].afficherEtal());
 				}
 				else {
 					nbEtalVide++;
 				}
 			}
 			if(nbr_etals>0) {
-				System.out.println("Il reste " +
-						nbEtalVide + " étals non utilisés dans le marché.\n");
+				chaine.append("Il reste " + nbEtalVide + " Ã©tals non utilisÃ©s dans le marchÃ©.\n");
 			}
+			return chaine.toString();
 		}
 //question 8 marche...
 //Modifier le village pour implementer les fonctions marche
